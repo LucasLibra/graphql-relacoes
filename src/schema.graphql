@@ -40,6 +40,11 @@ type Pessoa {
         removerComentario(id: ID!): Comentario!
     }
 
+    type Subscription {
+        dado: Int!,
+        comentario(idLivro: ID!): Comentario!
+    }
+
     input InserirComentarioInput {
         texto: String!
         nota: Int!
