@@ -32,6 +32,9 @@ type Pessoa {
         inserirPessoa (pessoa: InserirPessoaInput):Pessoa!
         inserirLivro (livro: InserirLivroInput): Livro!        
         inserirComentario(comentario: InserirComentarioInput): Comentario!
+        atualizarPessoa(id: ID!, pessoa: AtualizarPessoaInput!): Pessoa!
+        atualizarLivro(id: ID!, livro: AtualizarLivroInput!): Livro!
+        atualizarComentario(id: ID!, comentario: AtualizarComentarioInput!): Comentario!
         removerPessoa(id: ID!): Pessoa!
         removerLivro(id: ID!): Livro!
         removerComentario(id: ID!): Comentario!
@@ -53,4 +56,19 @@ type Pessoa {
         titulo: String!
         edicao: Int!
         autor: ID!
+    }
+
+    input AtualizarPessoaInput{
+        nome: String
+        idade: Int
+    }
+
+    input AtualizarLivroInput{
+        titulo: String
+        edicao: Int
+    }
+
+    input AtualizarComentarioInput{
+        texto: String
+        nota: Int
     }

@@ -25,6 +25,14 @@ const Mutation = {
         return removido
         
     },
+    atualizarPessoa(parent, args, {db}, info){
+        const pessoa = db.pessoas.find(p => p.id === args.id)
+        if (!pessoa){
+            throw new Error ("Pessoa não existe")
+        }
+        Object.assign(pessoa, {nome: args.pessoa.nome || pessoa.nome, idade: args.pessoa.idade || pessoa.idade})
+        return pessoa
+    },
     inserirLivro (parent, args, ctx, info){
         const autorExiste = ctx.db.pessoas.some (p => p.id === args.livro.autor)
         if (!autorExiste)
@@ -51,6 +59,17 @@ const Mutation = {
         );
         return removido
     },
+    atualizarLivro(parent, {id, livro}, ctx, info){
+        const { db } = ctx
+        const livroExistente = db.livros.find(l => l.id === id)
+        if(!livroExistente)
+            throw new Error ("Livro não existe")
+        Object.assign(livroExistente, {
+            titulo: livro.titulo || livroExistente.titulo,
+            edicao: livro.edicao || livroExistente.edicao
+        })
+        return livroExistente
+    },
     removerComentario(parent, args, ctx, info){
         const indice = ctx.db.comentarios.findIndex(
             c => c.id === args.id
@@ -74,6 +93,18 @@ const Mutation = {
         }
         ctx.db.comentarios.push(comentario)
         return comentario
+    },
+    atualizarComentario (parent, {id,comentario}, {db}, info){
+        const comentarioExistente = db.comentarios.find(c => c.id === id)
+        if(!comentarioExistente)
+            throw new Error ("Comentário não existente")
+        Object.assign(
+            comentarioExistente,{
+                texto: comentario.texto || comentarioExistente.texto,
+                nota: comentario.nota || comentarioExistente.nota
+            }
+        )
+        return comentarioExistente
     }
 }
 
