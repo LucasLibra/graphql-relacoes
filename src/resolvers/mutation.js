@@ -44,6 +44,11 @@ const Mutation = {
             autor: args.livro.autor
         }
         ctx.db.livros.push(livro)
+        ctx.pubSub.publish('livro', {livro:{
+                mutation: 'insercao',
+                data: livro
+            }  
+        })
         return livro
     },
     removerLivro(parent, args, ctx, info){
@@ -54,9 +59,13 @@ const Mutation = {
             throw new Error ("Livro não existe");
         }
         const removido = ctx.db.livros.splice(indice, 1)[0]
-        comentarios = ctx.db.comentarios.filter(
+        ctx.db.comentarios = ctx.db.comentarios.filter(
             c => c.livro  !== args.id
         );
+        ctx.pubSub.publish('livro', {livro: {
+            mutation: 'remocao',
+            data: removido
+        }})
         return removido
     },
     atualizarLivro(parent, {id, livro}, ctx, info){

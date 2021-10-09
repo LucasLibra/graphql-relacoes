@@ -43,6 +43,7 @@ type Pessoa {
     type Subscription {
         dado: Int!,
         comentario(idLivro: ID!): Comentario!
+        livro: LivroSubscriptionPayload!
     }
 
     input InserirComentarioInput {
@@ -76,4 +77,9 @@ type Pessoa {
     input AtualizarComentarioInput{
         texto: String
         nota: Int
+    }
+
+    type LivroSubscriptionPayload{
+        mutation: String!
+        data: Livro!
     }
